@@ -1,37 +1,73 @@
 import React from 'react'
 
-const MenuBar = (props) => {
+class MenuBar extends React.Component {
 
-  /*
+  state = {
+    active: [
+      'item active',
+      'item',
+      'item',
+      'item'
+    ]
+  }
 
-  The 'a' tags below are the menu items. Think about the way a menu 
-  should work. When you click a menu item, the button typically becomes
-  'active' to indicate that it is currently selected. How could we achieve
-  this programatically? What other behavior do we expect when we click
-  on a menu item? Do we need state in this component, and if not, how can
-  this component be made aware of what is currently the active menu item?
+  handleClick = event => {
+  let index = this.whichEvent(event)
+  this.setState({
+    active: this.state.active.map( (item, i) => {
+      if (i === index) {
+        return 'item active'
+      }
+      else {
+        return 'item'
+      }
+    })
+  }, () => console.log(this.state.active))
+  }
 
-  */
+  itemActiveLogic = (className) => {
+    if (className === 'item active') {
+      return 'item'
+    }
+    else {
+      return 'item active'
+    }
+  }
 
-  return (
-    <div className="ui four item menu">
-      <a className="item active" id="profile">
-        <i className="user large icon" id="profile"/>
+  whichEvent = event => {
+    switch (event.target.id) {
+      case 'profile':
+        return 0
+      case 'photo':
+        return 1
+      case 'cocktail':
+        return 2
+      case 'pokemon':
+        return 3
+    }
+  }
+
+  render() {
+    return (
+      <div className="ui four item menu">
+      <a onClick={this.props.clickEvent} onPointerDown={this.handleClick} className={this.state.active[0]} id="profile">
+      <i className="user large icon" id="profile"/>
       </a>
 
-      <a className="item" id="photo">
-        <i className="photo large icon" id="photo"/>
+      <a onClick={this.props.clickEvent} onPointerDown={this.handleClick} className={this.state.active[1]} id="photo">
+      <i className="photo large icon" id="photo"/>
       </a>
 
-      <a className="item" id="cocktail">
-        <i className="cocktail large icon" id="cocktail"/>
+      <a onClick={this.props.clickEvent} onPointerDown={this.handleClick} className={this.state.active[2]}id="cocktail">
+      <i className="cocktail large icon" id="cocktail"/>
       </a>
 
-      <a className="item" id="pokemon"> 
-        <i className=" themeisle large icon" id="pokemon"/>
+      <a onClick={this.props.clickEvent} onPointerDown={this.handleClick} className={this.state.active[3]} id="pokemon">
+      <i className=" themeisle large icon" id="pokemon"/>
       </a>
-    </div>
-  )
+      </div>
+    )
+  }
 
 }
 
